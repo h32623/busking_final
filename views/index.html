@@ -1,0 +1,125 @@
+<html>
+    <head>
+        <title>Busking</title>
+        <style>
+         #container {
+             display: table;
+
+             width: 90%;
+             height: 90%;
+             background: white;
+             margin: 100 auto;
+         }
+         .inner {
+             display: table-cell;
+
+             vertical-align: middle;
+             text-align: center;
+         }
+         .centered {
+             display: inline-block;
+             position: relative;
+
+             width: 80%;
+             padding: 0.5em;
+             background: lightgray;
+         }
+         #logo {
+             width: 450;
+             margin: 50 0 80 120
+         }
+         #search-box {
+             position: relative;
+             display: inline-block;
+
+             width: 80%;
+             background: lightgray;
+             border: 0;
+             outline: 0;
+
+             vertical-align: middle;
+             text-align: center;
+             font-size: 2em;
+         }
+         #search-btn {
+             position: relative;
+             display: inline-block;
+
+             width: 10%;
+             background: lightgray;
+             border: 0;
+             outline: 0;
+
+             vertical-align: middle;
+             text-align: center;
+         }
+        </style>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script>
+
+          function searchBus() {
+              var query = document.getElementById("search-box").value;
+              //버스 차량번호인 경우
+
+              var koreanRex = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+              if(koreanRex.test(query)) {
+                  searchByLicenseNumber(query);
+                  return;
+              }
+              //고유번호
+              if(query.startsWith("#")) {
+                  searchByID(query);
+                  return;
+              }
+              //노선번호\
+
+              var busNumberRex = /[0-9]/;
+              if(busNumberRex.test(query)) {
+                  showMapByLineNumber(query);
+                  return;
+              }
+              alert("#번호, 차량등록번호 형태로 입력해주세요");
+          }
+
+
+          function searchByLicenseNumber(query){
+
+              window.location = "./communication/" + query;
+          }
+          function searchByID(query) {
+
+              query = query.slice(1, 9);
+              window.location = "./communication/" + query;
+          }
+          function showMapByLineNumber(query) {
+              window.location = "http://127.0.0.1:3000/busMap/" + query;
+          }
+
+        </script>
+        <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+    </head>
+    <body>
+        <!-- <img class="col-sm-12 col-md-4" src="https://about.canva.com/wp-content/uploads/sites/3/2016/08/Band-Logo.png" /> -->
+        <!-- <br/>
+        <input class="col-sm-12 col-md-4" style="width:500; height: 30;" type="text" id="query" name="query" maxlength="9" placeholder="버스 번호, #번호, 차량등록번호를 입력해주세요"/>
+        <button id="btnSearch" class="col-sm-12 col-md-3" onclick="searchBus()">검색</button> -->
+
+
+        <div id="container">
+                    <div class="inner">
+                        <div>
+                            <img id="logo" src="http://127.0.0.1:3000/icons/logo.png"/>
+                        </div>
+                        <div class="centered">
+                            <div>
+                                <input id="search-box" type="text" name="query" maxlength="9" placeholder="ex. 153, #123456" required/>
+
+                                <input id="search-btn" onclick="searchBus()" type="image" src="http://127.0.0.1:3000/icons/search.png" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+    </body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>버스킹</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script>
+  function searchBus() {
+      var query = document.getElementById("search-box").value;
+      var koreanRex = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+      if(koreanRex.test(query)) {
+          searchByLicenseNumber(query);
+          return;
+      }
+      //고유번호
+      if(query.startsWith("#")) {
+          searchByID(query);
+          return;
+      }
+      //노선번호\
+
+      var busNumberRex = /[0-9]/;
+      if(busNumberRex.test(query)) {
+          showMapByLineNumber(query);
+          return;
+      }
+      alert("#번호, 차량등록번호 형태로 입력해주세요");
+    }
+    function searchByLicenseNumber(query){
+
+        window.location = "./communication/" + query;
+    }
+    function searchByID(query) {
+
+        query = query.slice(1, 9);
+        window.location = "./communication/" + query;
+    }
+    function showMapByLineNumber(query) {
+        window.location = "http://127.0.0.1:3000/busMap2/" + query;
+    }
+
+  </script>
+</head>
+<body>
+<center>
+  <table>
+    <tr align="center" height="66">
+      <td width="360" height="66" bgcolor="f57742" colspan="3">
+      <input id="search-box" size="35" type="text" name="query" maxlength="9" placeholder="ex. 153, #123456, 서울12가3456" required/>
+      <input align="absmiddle" width="30" height="30" id="search-btn" onclick="searchBus()" type="image" src="../images/search.png" />
+    </td>
+  </tr>
+      <%
+           dataStart.forEach(function(item, index){ %>
+             <tr><td width="65px"><img src="../images/line.png" width="65px" height="65"></td>
+               <td width="35px"></td>
+               <td width="260px" align="center"><%= item.b_s_name %></td>
+             </tr>
+         <%  });%>
+         <tr><td width="65px"><img src="../images/running.png" width="65px" height="65"></td>
+           <td width="35px"><font color="f57742"><b>100100411</b></font></td>
+           <td width="260px" align="center"><b><a href="http://127.0.0.1:3000/communication/100100411/6000">발산역</a></b></td>
+         </tr>
+         <%
+              dataMid.forEach(function(item, index){ %>
+                <tr><td width="65px"><img src="../images/line.png" width="65px" height="65"></td>
+               <td width="35px"></td>
+                  <td width="260px" align="center"><%= item.b_s_name %></td>
+                </tr>
+            <%  });%>
+            <tr><td width="65px"><img src="../images/running.png" width="65px" height="65"></td>
+              <td width="35px"><font color="f57742"><b>200000085</b></font></td>
+              <td width="260px" align="center"><b><a href="http://127.0.0.1:3000/communication/200000085/6000">등촌역.강서보건소</a></b></td>
+            </tr>
+            <%
+                 dataEnd.forEach(function(item, index){ %>
+                   <tr><td width="65px"><img src="../images/line.png" width="65px" height="65"></td>
+               <td width="35px"></td>
+                     <td width="260px" align="center"><%= item.b_s_name %></td>
+                   </tr>
+               <%  });%>
+</table>
+</center>
+</body>
+</html>

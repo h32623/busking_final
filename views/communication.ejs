@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style type="text/css">
+  @import url(https://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+  *{
+    font-family: 'Nanum Gothic', sans-serif;
+  }
+  textarea:disabled{background-color: #f57742}
+  </style>
+  <title>버스킹</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+function temperShow(){
+  if( document.getElementById('hotBtn').style.display == "none"){
+    document.getElementById('hotBtn').style.display = "inline";
+    document.getElementById('coldBtn').style.display = "inline";
+  }else{
+    document.getElementById('hotBtn').style.display = "none";
+    document.getElementById('coldBtn').style.display = "none";
+  }
+}
+function askShow(){
+  if(document.ask.content.style.display == "none"){
+    document.ask.content.style.display = "block";
+    document.ask.askSend.style.display = "block";
+  }
+  else{
+    document.ask.content.style.display = "none";
+    document.ask.askSend.style.display = "none";
+  }
+}
+
+function compShow(){
+  if(document.comp.content.style.display == "none"){
+    document.comp.content.style.display = "block";
+    document.comp.compSend.style.display = "block";
+  }
+  else{
+    document.comp.content.style.display = "none";
+    document.comp.compSend.style.display = "none";
+  }
+}
+
+function temper(temper){
+  var req = new XMLHttpRequest();
+  var temper = temper;
+  req.open('GET', 'http://www.mozilla.org/', true);
+  // req.send(temper);
+  alert('온도 문의를 보냈습니다!');
+  window.location = "http://127.0.0.1:3000/communication/100100411/6000";
+}
+
+function askSubmit(){
+  if(document.ask.content.value == ""){
+    alert('내용을 입력하세요!');
+    return false;
+  }
+  alert('문의를 보냈습니다!');
+  // ask.submit();
+  window.location = "http://127.0.0.1:3000/communication/100100411/6000";
+}
+
+function compSubmit(){
+  if(document.comp.content.value == ""){
+    alert('내용을 입력하세요!');
+    return false;
+  }
+  alert('기사님을 응원했습니다!');
+  // comp.submit();
+  window.location = "http://127.0.0.1:3000/communication/100100411/6000";
+}
+
+
+</script>
+</head>
+<body>
+  <center>
+<table>
+  <tr><td height="140" width="360" bgcolor="f57742">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;당신의 버스는<br>
+    <font color="white" size="5"><b> &nbsp;&nbsp;&nbsp;&nbsp;<%=busNum%> / <br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<%=busId%>&nbsp;</b></font>입니다.
+  </td></tr>
+<tr><td>
+  <center>
+  <ul class="list-group">
+
+    <li class="list-group-item" onClick="temperShow()">
+    <font color="f57742"><b>&nbsp;&nbsp;온도 문의하기</b></font>
+      <img src="http://127.0.0.1:3000/images/temper.png" width="14" height="30"/></li>
+      <img id="hotBtn" onClick="temper('hot')" src="http://127.0.0.1:3000/images/hot.png" width="160" height="190" style="display:none">
+      <img id="coldBtn" onClick="temper('cold')" src="http://127.0.0.1:3000/images/cold.png" width="163" height="190" style="display:none">
+
+    <li class="list-group-item" onClick="askShow()">
+      <font color="f57742"><b>&nbsp;&nbsp;문의하기</b></font></font>
+      <img src="http://127.0.0.1:3000/images/ask.png" width="30" height="30"/></li>
+    <form name="ask" method="post">
+      <textarea class="form-control" placeholder="문의하실 내용을 입력해주세요." name="content" rows="3" style="display:none"></textarea>
+      <img name="askSend" width="300" src="http://127.0.0.1:3000/images/send.png" onClick="askSubmit()" style="display:none">
+    </form>
+
+    <li class="list-group-item" onClick="compShow()">
+      <font color="f57742"><b>&nbsp;&nbsp;칭찬하기</b></font></font>
+      <img src="http://127.0.0.1:3000/images/praise.png" width="30" height="30"/></li>
+    <form name="comp" method="post">
+      <textarea class="form-control" placeholder="기사님을 위한 응원의 한마디 부탁드립니다." name="content" rows="3" style="display:none"></textarea>
+      <img name="compSend" width="300" src="http://127.0.0.1:3000/images/send.png" onClick="compSubmit()" style="display:none">
+    </form>
+
+
+  </ul></td></tr>
+  </table>
+</center>
+  </center>
+</body>
+</html>
